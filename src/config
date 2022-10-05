@@ -1,0 +1,11 @@
+export DIST_NAME=ebuc
+export DIST_VERSION=0.0.1
+export MODULES="base(cube)"
+
+export RPI_IMAGER_NAME="${DIST_NAME} version ${DIST_VERSION}"
+export RPI_IMAGER_DESCRIPTION="A Raspberry Pi distribution for servers. Ships Planet out-of-the-box."
+export RPI_IMAGER_ICON="https://avatars.githubusercontent.com/u/33208073"
+
+
+export BASE_IMAGE_ENLARGEROOT=2000
+export BASE_IMAGE_RESIZEROOT=200

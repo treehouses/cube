@@ -1,0 +1,2 @@
+BASE_ARCH=arm64
+BASE_USER=pi
