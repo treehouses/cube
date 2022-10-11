@@ -17,8 +17,15 @@ version="$DIST_NAME-$DIST_VERSION"
 echo "writing version.txt: $version"
 echo "$version" > /boot/version.txt
 
-# for kubernetes 
+# cgroup for kubernetes 
 sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
+
+# bluetooth for treehouses remote
+curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
+cat /usr/local/bin/bluetooth-server.py | grep ^class
+echo "switching bluetooth device class to 0x00010c - computer"
+sed -i -e 's/#Class = .*/Class = 0x00010c/g' /etc/bluetooth/main.conf
+pip3 install 'pybluez==0.23'
 
 apt update
 
@@ -58,5 +65,4 @@ apt install --reinstall iputils-ping
 apt clean
 apt autoremove -y
 
-# unpack root again ;)
 unpack /filesystem/root /
