@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   repository_dispatch:
   push:
+    branches:
+      - "main"
+#      - "<branch>"
 
 jobs:
   build:
