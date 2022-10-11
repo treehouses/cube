@@ -12,6 +12,11 @@ unpack /filesystem/home/pi /home/"${BASE_USER}" "${BASE_USER}"
 unpack /filesystem/home/root /root root
 unpack /filesystem/boot /boot
 
+# /boot/version.txt
+version="$DIST_NAME-$DIST_VERSION"
+echo "writing version.txt: $version"
+echo "$version" > /boot/version.txt
+
 # for kubernetes 
 sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
 
