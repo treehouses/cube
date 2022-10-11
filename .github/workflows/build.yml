@@ -1,6 +1,7 @@
 name: Build Image
 
 on:
+  workflow_dispatch:
   repository_dispatch:
   push:
 
