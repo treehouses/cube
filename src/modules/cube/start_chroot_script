@@ -62,8 +62,11 @@ apt install --reinstall iputils-ping
 # disable GUI at start
 #systemctl_if_exists disable lightdm.service || true
 
-#cleanup
+# cleanup
 apt clean
 apt autoremove -y
 
 unpack /filesystem/root /
+
+# hack
+systemctl enable rpibluetooth.service
