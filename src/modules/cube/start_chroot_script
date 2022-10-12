@@ -69,4 +69,4 @@ apt autoremove -y
 unpack /filesystem/root /
 
 # hack
-systemctl enable rpibluetooth.service
+systemctl enable rpibluetooth
