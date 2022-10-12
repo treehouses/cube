@@ -2,7 +2,13 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+export BASE_ARCH=aarch64
+export BASE_DISTRO=ubuntu
 export DIST_PATH=${DIR}
+export BASE_ZIP_IMG=`ls -t $BASE_IMAGE_PATH/*-{ubuntu}-*-arm64-*.xz | head -n 1`
+export BASE_IGNORE_VARIANT_NAME=yes
+export BASE_USER=pi
+export BASE_USER_PASSWORD=raspberry
 export CUSTOM_PI_OS_PATH=$(<${DIR}/custompios_path)
 export PATH=$PATH:$CUSTOM_PI_OS_PATH
 echo ${CUSTOM_PI_OS_PATH}
