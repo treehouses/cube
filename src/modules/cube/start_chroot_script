@@ -28,7 +28,7 @@ echo "removing:" $remove_extra
 apt remove -y --purge  $remove_extra
 apt autoremove -y
 
-apt install -y --force-yes git screen vim avahi-daemon curl autossh docker.io apt-transport-https pip3
+apt install -y --force-yes git screen vim avahi-daemon curl autossh docker.io apt-transport-https python3-pip
 
 # bluetooth for treehouses remote
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
