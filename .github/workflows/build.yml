@@ -17,7 +17,7 @@ jobs:
         sudo apt update
         sudo apt install coreutils p7zip-full qemu-user-static
 
-    - name: Checkout UbuntuServer
+    - name: Checkout CustomPiOS
       uses: actions/checkout@v3
       with:
         repository: 'guysoft/CustomPiOS'
@@ -34,10 +34,10 @@ jobs:
         cd repository/src/image
         wget -c --trust-server-names 'https://ubuntu.com/download/raspberry-pi/thank-you?version=22.04.1&architecture=server-arm64+raspi'
 
-    - name: Update UbuntuServer Paths
+    - name: Update CustomPiOS Paths
       run: |
         cd repository/src
-        ../../UbuntuServer/src/update-customubuntu-paths
+        ../../CustomPiOS/src/update-custompios-paths
     
     - name: Build Image
       run: |
