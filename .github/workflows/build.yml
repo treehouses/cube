@@ -20,8 +20,8 @@ jobs:
     - name: Checkout UbuntuServer
       uses: actions/checkout@v3
       with:
-        repository: 'guysoft/UbuntuServer'
-        path: UbuntuServer
+        repository: 'guysoft/CustomPiOS'
+        path: CustomPiOS
 
     - name: Checkout Project Repository
       uses: actions/checkout@v3
