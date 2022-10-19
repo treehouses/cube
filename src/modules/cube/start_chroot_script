@@ -28,7 +28,7 @@ echo "removing:" $remove_extra
 apt remove -y --purge  $remove_extra
 apt autoremove -y
 
-apt install -y --force-yes git screen vim avahi-daemon curl autossh docker.io apt-transport-https
+apt install -y --force-yes git screen vim avahi-daemon curl autossh docker.io apt-transport-https tor
 
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
