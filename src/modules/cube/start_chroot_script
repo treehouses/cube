@@ -28,7 +28,11 @@ echo "removing:" $remove_extra
 apt remove -y --purge  $remove_extra
 apt autoremove -y
 
-apt install -y --force-yes git screen vim avahi-daemon curl autossh docker.io apt-transport-https \
+apt install -y --force-yes curl apt-transport-https \ # apt essentials
+  git vim screen \ # terminal development
+  autossh tor \ # tunnel
+  avahi-daemon \ # network
+  docker.io \ # container
 	minicom bluez-tools libbluetooth-dev python3-pip python3-dbus # bluetooth
 
 # bluetooth for treehouses remote
