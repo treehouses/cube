@@ -17,7 +17,7 @@ version="$DIST_NAME-$DIST_VERSION"
 echo "writing version.txt: $version"
 echo "$version" > /boot/version.txt
 
-# for kubernetes 
+# cgroup for kubernetes 
 sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
 
 apt update
@@ -28,7 +28,19 @@ echo "removing:" $remove_extra
 apt remove -y --purge  $remove_extra
 apt autoremove -y
 
-apt install -y --force-yes git screen vim avahi-daemon curl autossh docker.io apt-transport-https tor
+apt install -y --force-yes curl apt-transport-https \ # apt essentials
+  git vim screen \ # terminal development
+  autossh tor \ # tunnel
+  avahi-daemon \ # network
+  docker.io \ # container
+	minicom bluez-tools libbluetooth-dev python3-pip python3-dbus # bluetooth
+
+# bluetooth for treehouses remote
+curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
+cat /usr/local/bin/bluetooth-server.py | grep ^class
+echo "switching bluetooth device class to 0x00010c - computer"
+sed -i -e 's/#Class = .*/Class = 0x00010c/g' /etc/bluetooth/main.conf
+pip3 install 'pybluez==0.23'
 
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
@@ -54,9 +66,11 @@ apt install --reinstall iputils-ping
 # disable GUI at start
 #systemctl_if_exists disable lightdm.service || true
 
-#cleanup
+# cleanup
 apt clean
 apt autoremove -y
 
-# unpack root again ;)
 unpack /filesystem/root /
+
+# hack
+systemctl enable rpibluetooth
