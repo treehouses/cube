@@ -28,12 +28,12 @@ echo "removing:" $remove_extra
 apt remove -y --purge  $remove_extra
 apt autoremove -y
 
-apt install -y --force-yes curl apt-transport-https \ # apt essentials
-  git vim screen \ # terminal development
-  autossh tor \ # tunnel
-  avahi-daemon \ # network
-  docker.io \ # container
-	minicom bluez-tools libbluetooth-dev python3-pip python3-dbus # bluetooth
+apt install -y --force-yes curl apt-transport-https  # apt essentials \
+    git vim screen  # terminal development \
+    autossh tor  # tunnel \
+    avahi-daemon  # network \
+    docker.io  # container \
+    minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
 
 # bluetooth for treehouses remote
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
