@@ -36,7 +36,7 @@ install=(
     docker.io  # container
     minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
 )
-apt install -y --approve "${install[@]}"
+apt install -y --force-yes "${install[@]}"
 
 # bluetooth for treehouses remote
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
