@@ -1,8 +1,12 @@
 name: Build Image
 
 on:
+  workflow_dispatch:
   repository_dispatch:
   push:
+    branches:
+      - "main"
+#      - "<branch>"
 
 jobs:
   build:
@@ -14,13 +18,13 @@ jobs:
         sudo apt install coreutils p7zip-full qemu-user-static
 
     - name: Checkout CustomPiOS
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: 'guysoft/CustomPiOS'
         path: CustomPiOS
 
     - name: Checkout Project Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: repository
         submodules: true
@@ -28,7 +32,7 @@ jobs:
     - name: Download Raspios Lite ARM64 Image
       run: |
         cd repository/src/image
-        wget -c --trust-server-names 'https://redirect.armbian.com/rpi4b/Jammy_current'
+        wget -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2022-09-07/2022-09-06-raspios-bullseye-arm64-lite.img.xz'
 
     - name: Update CustomPiOS Paths
       run: |
