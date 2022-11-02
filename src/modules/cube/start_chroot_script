@@ -17,8 +17,10 @@ version="$DIST_NAME-$DIST_VERSION"
 echo "writing version.txt: $version"
 echo "$version" > /boot/version.txt
 
-# cgroup for kubernetes 
-# sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
+# cgroup for kubernetes
+if [[ "$OSTYPE" != "linux-gnu"* ]]; then
+  sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
+fi
 
 apt update
 
@@ -38,6 +40,9 @@ install=(
 )
 apt install -y --force-yes "${install[@]}"
 
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  pip install "setuptools<58.0.0"
+fi
 # bluetooth for treehouses remote
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
 cat /usr/local/bin/bluetooth-server.py | grep ^class
