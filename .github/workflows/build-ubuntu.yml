@@ -6,7 +6,7 @@ on:
   push:
     branches:
       - "main"
-      - "4-additional-ubuntu-build"
+      - "4-additional-ubuntu-build-1"
 
 jobs:
   build:

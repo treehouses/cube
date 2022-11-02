@@ -18,7 +18,7 @@ echo "writing version.txt: $version"
 echo "$version" > /boot/version.txt
 
 # cgroup for kubernetes 
-sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
+# sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
 
 apt update
 
