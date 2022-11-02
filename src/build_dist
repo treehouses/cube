@@ -3,13 +3,15 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 export DIST_PATH=${DIR}
-export BASE_ZIP_IMG=`ls -t ${DIST_PATH}/image/*.{zip,7z,xz} | head -n 1`
-export BASE_APT_CACHE=no
-export OCTOPI_INCLUDE_WIRINGPI=no
-export BASE_IMAGE_RASPBIAN=no
-export BASE_DISTRO=armbian
 export CUSTOM_PI_OS_PATH=$(<${DIR}/custompios_path)
 export PATH=$PATH:$CUSTOM_PI_OS_PATH
+if [ "$1" == 'armbian' ];
+then
+  export BASE_ZIP_IMG=`ls -t ${DIST_PATH}/image/*.{zip,7z,xz} | head -n 1`
+  export OCTOPI_INCLUDE_WIRINGPI=no
+  export BASE_IMAGE_RASPBIAN=no
+  export BASE_DISTRO=armbian
+fi
 echo ${CUSTOM_PI_OS_PATH}
 
 ${CUSTOM_PI_OS_PATH}/build_custom_os $@
