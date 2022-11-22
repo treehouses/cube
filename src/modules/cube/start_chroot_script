@@ -30,6 +30,7 @@ apt autoremove -y
 
 install=(
     curl apt-transport-https  # apt essentials
+    jq # @treehouses/cli
     git vim screen  # terminal development
     autossh tor  # tunnel
     netcat avahi-daemon  # network
