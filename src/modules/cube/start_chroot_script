@@ -32,7 +32,7 @@ install=(
     curl apt-transport-https  # apt essentials
     git vim screen  # terminal development
     autossh tor  # tunnel
-    avahi-daemon  # network
+    netcat avahi-daemon  # network
     docker.io  # container
     minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
 )
