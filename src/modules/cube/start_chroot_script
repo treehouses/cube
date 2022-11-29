@@ -20,6 +20,11 @@ echo "$version" > /boot/version.txt
 # cgroup for kubernetes 
 sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
 
+# Enable wifi by default
+for filename in /var/lib/systemd/rfkill/*:wlan ; do
+    echo 0 > $filename
+done
+
 apt update
 
 # in case we are building from a regular raspbian image instead of the lite one...
