@@ -70,6 +70,9 @@ treehouses sshkey github adduser louhdy
 treehouses sshkey github adduser lanxel97
 treehouses sshkey github adduser wesitos
 treehouses sshkey github adduser lmmrssa
+treehouses sshkey github adduser hirotochigi
+treehouses sshkey github adduser jlkwong
+treehouses sshkey github adduser BryanGazali
 cp -R /root/.ssh /home/"${BASE_USER}"
 chown -R "${BASE_USER}": /home/"${BASE_USER}"/.ssh
 
