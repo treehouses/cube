@@ -51,7 +51,7 @@ jobs:
         source repository/src/config
         NOW=$(date +"%Y-%m-%d-%H%M")
         IMAGE=$NOW-cube-$DIST_VERSION
-        cp repository/src/workspace/*.img $IMAGE.img
+        cp repository/src/workspace-raspios_lite_arm64/*.img $IMAGE.img
         gzip $IMAGE.img
         sync; sync; sync
         echo "::set-output name=image::$IMAGE"
