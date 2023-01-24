@@ -43,7 +43,7 @@ jobs:
       run: |
         sudo modprobe loop
         cd repository/src
-        sudo bash -x ./build_dist
+        sudo bash -x ./build_dist raspios_lite_arm64
 
     - name: Copy output
       id: copy
