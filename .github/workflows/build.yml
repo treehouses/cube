@@ -37,6 +37,9 @@ jobs:
     - name: Update CustomPiOS Paths
       run: |
         cd repository/src/variants/raspios_lite_arm64
+        cd ../../..
+        ls -al
+        exit 1
         ../../../CustomPiOS/src/update-custompios-paths
     
     - name: Build Image
