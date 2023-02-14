@@ -1,6 +1,13 @@
 export DIST_NAME=cube
-export DIST_VERSION=0.0.9
+export DIST_VERSION=0.0.10
 export MODULES="base(cube)"
+
+
+if [ "$#" -gt 0 ]; then
+  export BUILD_VARIANT=$1
+  export VARIANT_BASE="${DIST_PATH}/variants/$BUILD_VARIANT"
+fi
+
 
 export RPI_IMAGER_NAME="${DIST_NAME} version ${DIST_VERSION}"
 export RPI_IMAGER_DESCRIPTION="A Raspberry Pi distribution for servers. Ships Planet out-of-the-box."

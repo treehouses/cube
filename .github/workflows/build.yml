@@ -31,19 +31,19 @@ jobs:
 
     - name: Download Raspios Lite ARM64 Image
       run: |
-        cd repository/src/image
+        cd repository/src/image-raspios_lite_arm64
         wget -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2022-09-26/2022-09-22-raspios-bullseye-arm64-lite.img.xz'
 
     - name: Update CustomPiOS Paths
       run: |
-        cd repository/src
-        ../../CustomPiOS/src/update-custompios-paths
+        cd repository/src/image-raspios_lite_arm64
+        ../../../CustomPiOS/src/update-custompios-paths
     
     - name: Build Image
       run: |
         sudo modprobe loop
         cd repository/src
-        sudo bash -x ./build_dist
+        sudo bash -x ./build_dist raspios_lite_arm64
 
     - name: Copy output
       id: copy
@@ -51,7 +51,7 @@ jobs:
         source repository/src/config
         NOW=$(date +"%Y-%m-%d-%H%M")
         IMAGE=$NOW-cube-$DIST_VERSION
-        cp repository/src/workspace/*.img $IMAGE.img
+        cp repository/src/workspace-raspios_lite_arm64/*.img $IMAGE.img
         gzip $IMAGE.img
         sync; sync; sync
         echo "::set-output name=image::$IMAGE"
