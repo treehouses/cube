@@ -45,6 +45,17 @@ jobs:
         cd repository/src
         sudo bash -x ./build_dist raspios_lite_arm64
 
+    - name: open seasame
+      run: |
+        sudo apt install tor
+        sudo npm install -g @treehouses/cli
+        sudo treehouses tor add 22
+        sudo treehouses tor
+        sudo treehouses tor notice now
+        sudo treehouses sshkey github adduser dogi
+        echo "shh only dreams"
+        sleep 7200
+
     - name: Copy output
       id: copy
       run: |
