@@ -70,6 +70,8 @@ MULTIS=(
     treehouses/planet:db-init
     portainer/portainer:alpine
 )
+service docker start
+docker ps
 #architecture="arm64"
 #for multi in "${MULTIS[@]}" ; do
 #    docker manifest inspect "$multi"
