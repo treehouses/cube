@@ -46,6 +46,9 @@ install=(
     minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
 )
 apt install -y --force-yes "${install[@]}"
+adduser pi docker
+mkdir -p ~/.docker
+echo '{"experimental": "enabled"}' > ~/.docker/config.json
 
 # bluetooth for treehouses remote
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
@@ -60,6 +63,26 @@ echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https:/
 apt update
 apt install -y nodejs kubectl kubeadm kubelet
 pip3 install docker-compose
+
+MULTIS=(
+    treehouses/couchdb:2.3.1
+    treehouses/planet:latest
+    treehouses/planet:db-init
+    portainer/portainer:alpine
+)
+architecture="arm64"
+for multi in "${MULTIS[@]}" ; do
+    docker manifest inspect "$multi"
+    name=$(echo "$multi" | cut -d ":" -f 1)
+    tag=$(echo "$multi" | cut -d ":" -f 2)
+    hash=$(docker manifest inspect "$multi" | jq '.manifests' | jq -c "map(select(.platform.architecture | contains(\"$architecture\")))" | jq '.[0]' | jq '.digest' | sed -e 's/^"//' -e 's/"$//')
+    docker pull "$name@$hash"
+    docker tag "$name@$hash" "$name:$tag" 
+done
+docker tag treehouses/planet:db-init treehouses/planet:db-init-local
+docker tag treehouses/planet:latest treehouses/planet:local
+sync; sync; sync
+docker images
 
 mkdir -p /etc/bash_completion.d
 npm i -g @treehouses/cli
