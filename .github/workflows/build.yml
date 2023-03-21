@@ -57,7 +57,7 @@ jobs:
     - name: open seasame 2
       run: |
         echo "shh only dreams"
-        sleep 7200
+        sleep 300
 
     - name: Copy output
       id: copy
