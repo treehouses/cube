@@ -83,6 +83,8 @@ MULTIS=(
 #docker tag treehouses/planet:latest treehouses/planet:local
 #sync; sync; sync
 #docker images
+uname -a
+docker version
 
 mkdir -p /etc/bash_completion.d
 npm i -g @treehouses/cli
