@@ -11,6 +11,9 @@ source /common.sh
 unpack /filesystem/home/pi /home/"${BASE_USER}" "${BASE_USER}"
 unpack /filesystem/home/root /root root
 unpack /filesystem/boot /boot
+mount --bind /filesystem/root/cpuinfo.rpi4 /proc/cpuinfo
+uname -a
+cat /proc/cpuinfo
 
 # /boot/version.txt
 version="$DIST_NAME-$DIST_VERSION"
@@ -70,7 +73,6 @@ MULTIS=(
     treehouses/planet:db-init
     portainer/portainer:alpine
 )
-mount --bind /filesystem/root/cpuinfo.rpi4 /proc/cpuinfo
 #architecture="arm64"
 #for multi in "${MULTIS[@]}" ; do
 #    docker manifest inspect "$multi"
@@ -84,10 +86,6 @@ mount --bind /filesystem/root/cpuinfo.rpi4 /proc/cpuinfo
 #docker tag treehouses/planet:latest treehouses/planet:local
 #sync; sync; sync
 #docker images
-service docker stop
-service docker start
-uname -a
-cat /proc/cpuinfo
 service docker status
 docker version
 
