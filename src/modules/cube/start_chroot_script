@@ -88,7 +88,7 @@ service docker stop
 service docker start
 uname -a
 cat /proc/cpuinfo
-systemctl status docker
+service docker status
 docker version
 
 mkdir -p /etc/bash_completion.d
