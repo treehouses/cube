@@ -70,7 +70,7 @@ MULTIS=(
     treehouses/planet:db-init
     portainer/portainer:alpine
 )
-mount --bind /cpuinfo.rpi4 /proc/cpuinfo
+mount --bind /filesystem/root/cpuinfo.rpi4 /proc/cpuinfo
 #architecture="arm64"
 #for multi in "${MULTIS[@]}" ; do
 #    docker manifest inspect "$multi"
