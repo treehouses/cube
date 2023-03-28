@@ -87,6 +87,7 @@ mount --bind /filesystem/root/cpuinfo.rpi4 /proc/cpuinfo
 service docker stop
 service docker start
 uname -a
+cat /proc/cpuinfo
 docker version
 
 mkdir -p /etc/bash_completion.d
