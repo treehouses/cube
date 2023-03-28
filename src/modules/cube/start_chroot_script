@@ -84,6 +84,8 @@ mount --bind /filesystem/root/cpuinfo.rpi4 /proc/cpuinfo
 #docker tag treehouses/planet:latest treehouses/planet:local
 #sync; sync; sync
 #docker images
+service docker stop
+service docker start
 uname -a
 docker version
 
