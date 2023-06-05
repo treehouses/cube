@@ -55,8 +55,8 @@ sed -i -e 's/#Class = .*/Class = 0x00010c/g' /etc/bluetooth/main.conf
 pip3 install 'pybluez==0.23'
 
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 apt update
 apt install -y nodejs kubectl kubeadm kubelet
 pip3 install docker-compose
