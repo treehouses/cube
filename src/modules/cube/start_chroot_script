@@ -61,6 +61,7 @@ apt update
 apt install -y nodejs kubectl kubeadm kubelet
 pip3 install docker-compose
 
+# treehouses cli
 mkdir -p /etc/bash_completion.d
 npm i -g @treehouses/cli
 mkdir -p /root/.ssh
@@ -75,6 +76,9 @@ treehouses sshkey github adduser jlkwong
 treehouses sshkey github adduser BryanGazali
 cp -R /root/.ssh /home/"${BASE_USER}"
 chown -R "${BASE_USER}": /home/"${BASE_USER}"/.ssh
+
+# luftballon script
+git clone https://github.com/treehouses/luftballon.git
 
 echo " - reinstall iputils-ping"
 apt install --reinstall iputils-ping
