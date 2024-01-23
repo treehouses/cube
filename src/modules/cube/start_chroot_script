@@ -28,31 +28,18 @@ for filename in /var/lib/systemd/rfkill/*:wlan ; do
     echo 0 > $filename
 done
 
-apt update
-
 # in case we are building from a regular raspbian image instead of the lite one...
+apt update
 remove_extra=$(remove_if_installed scratch squeak-plugins-scratch squeak-vm wolfram-engine python-minecraftpi minecraft-pi sonic-pi oracle-java8-jdk bluej libreoffice-common libreoffice-core freepats greenfoot nodered)
 echo "removing:" $remove_extra
 apt remove -y --purge  $remove_extra
 apt autoremove -y
 
-install=(
+# basics and apt enhancements
+basics=(
     curl apt-transport-https ca-certificates gnupg  # apt essentials
-    jq # @treehouses/cli
-    git vim screen  # terminal development
-    autossh tor  # tunnel
-    netcat-openbsd avahi-daemon  # network
-    minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
 )
-apt install -y --force-yes "${install[@]}"
-
-# bluetooth for treehouses remote
-curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
-cat /usr/local/bin/bluetooth-server.py | grep ^class
-echo "switching bluetooth device class to 0x00010c - computer"
-sed -i -e 's/#Class = .*/Class = 0x00010c/g' /etc/bluetooth/main.conf
-pip3 install git+https://github.com/pybluez/pybluez.git#egg=pybluez --break-system-packages
-
+apt install -y --force-yes "${basics[@]}"
 # docker-ce
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -66,20 +53,40 @@ curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 # kubernetes
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-apt update
-apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin nodejs kubectl kubeadm kubelet
 
+# install
+apt update
+install={
+    jq # @treehouses/cli
+    git vim screen  # terminal development
+    autossh tor  # tunnel
+    netcat-openbsd avahi-daemon  # network
+    minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
+    docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin  # docker-ce
+    nodejs  # node
+    kubectl kubeadm kubelet  # kube
+}
+apt install -y --force-yes "${install[@]}"
+
+# bluetooth for treehouses remote
+curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
+cat /usr/local/bin/bluetooth-server.py | grep ^class
+echo "switching bluetooth device class to 0x00010c - computer"
+sed -i -e 's/#Class = .*/Class = 0x00010c/g' /etc/bluetooth/main.conf
+pip3 install git+https://github.com/pybluez/pybluez.git#egg=pybluez --break-system-packages
 mkdir -p /etc/bash_completion.d
 npm i -g @treehouses/cli
+
 mkdir -p /root/.ssh
 chmod go-rwx /root/.ssh
 treehouses sshkey github adduser dogi
+treehouses sshkey github adduser mutugiii
+treehouses sshkey github adduser okuro3499
 treehouses sshkey github adduser louhdy
 treehouses sshkey github adduser lanxel97
 treehouses sshkey github adduser wesitos
 treehouses sshkey github adduser lmmrssa
 treehouses sshkey github adduser hirotochigi
-treehouses sshkey github adduser jlkwong
 treehouses sshkey github adduser BryanGazali
 cp -R /root/.ssh /home/"${BASE_USER}"
 chown -R "${BASE_USER}": /home/"${BASE_USER}"/.ssh
