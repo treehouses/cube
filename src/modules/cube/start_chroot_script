@@ -41,11 +41,11 @@ install=(
     jq # @treehouses/cli
     git vim screen  # terminal development
     autossh tor  # tunnel
-    netcat avahi-daemon  # network
+    netcat-openbsd avahi-daemon  # network
     docker.io  # container
     minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
 )
-apt install -y --force-yes "${install[@]}"
+apt install -y --allow "${install[@]}"
 
 # bluetooth for treehouses remote
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
