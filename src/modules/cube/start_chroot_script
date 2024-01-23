@@ -52,14 +52,14 @@ curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/
 cat /usr/local/bin/bluetooth-server.py | grep ^class
 echo "switching bluetooth device class to 0x00010c - computer"
 sed -i -e 's/#Class = .*/Class = 0x00010c/g' /etc/bluetooth/main.conf
-pip3 install 'pybluez==0.23'
+pip3 install 'pybluez==0.23' --break-system-packages
 
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
 apt update
 apt install -y nodejs kubectl kubeadm kubelet
-pip3 install docker-compose
+pip3 install docker-compose --break-system-packages
 
 mkdir -p /etc/bash_completion.d
 npm i -g @treehouses/cli
