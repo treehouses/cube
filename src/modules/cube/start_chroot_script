@@ -16,6 +16,7 @@ unpack /filesystem/boot /boot
 version="$DIST_NAME-$DIST_VERSION"
 echo "writing version.txt: $version"
 echo "$version" > /boot/version.txt
+cat /boot/version.txt
 
 # cgroup for kubernetes 
 sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
