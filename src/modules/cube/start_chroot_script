@@ -7,20 +7,18 @@ export LC_ALL=C
 
 source /common.sh
 
+# /boot/version.txt
+version="$DIST_NAME-$DIST_VERSION"
+echo "writing version.txt: $version"
+echo "$version" > /filesystem/boot/version.txt
 
 unpack /filesystem/home/pi /home/"${BASE_USER}" "${BASE_USER}"
 unpack /filesystem/home/root /root root
 unpack /filesystem/boot /boot
 
-# /boot/version.txt
-version="$DIST_NAME-$DIST_VERSION"
-echo "writing version.txt: $version"
-echo "$version" > /boot/version.txt
-cat /boot/version.txt
-
 # cgroup for kubernetes 
 sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
-
+cat /boot/version.txt
 
 ## TODO better alternative enable by cli on first boot
 ##      because wifi country problem
