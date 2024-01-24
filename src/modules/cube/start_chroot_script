@@ -100,6 +100,8 @@ apt install --reinstall iputils-ping
 apt clean
 apt autoremove -y
 
+mv /root/etc/systemd/system/dbus-org.bluez.service /root/etc/systemd/system/dbus-org.bluez.service.old
+
 unpack /filesystem/root /
 
 # hack
