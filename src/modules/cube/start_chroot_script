@@ -59,7 +59,7 @@ install=(
     jq # @treehouses/cli
     git vim screen  # terminal development
     autossh tor  # tunnel
-    netcat-openbsd avahi-daemon dhcpcd5  # network
+    netcat-openbsd avahi-daemon #dhcpcd5  # network
     minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
     docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin  # docker-ce
     nodejs  # node
@@ -100,7 +100,12 @@ apt install --reinstall iputils-ping
 apt clean
 apt autoremove -y
 
-#unpack /filesystem/root /
+unpack /filesystem/root /
 
 # hack
 systemctl enable rpibluetooth
+
+postinstall=(
+    dhcpcd5  # network
+)
+apt install -y --force-yes "${postinstall[@]}"
