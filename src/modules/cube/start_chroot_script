@@ -59,11 +59,12 @@ install=(
     jq # @treehouses/cli
     git vim screen  # terminal development
     autossh tor  # tunnel
-    netcat-openbsd avahi-daemon #dhcpcd5  # network
+    netcat-openbsd avahi-daemon  # network
     minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
     docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin  # docker-ce
     nodejs  # node
     kubectl kubeadm kubelet  # kube
+    dos2unix bluez rfkill  #misc
 )
 apt install -y --force-yes "${install[@]}"
 
