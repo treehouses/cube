@@ -102,10 +102,10 @@ apt autoremove -y
 
 unpack /filesystem/root /
 
-# hack
-systemctl enable rpibluetooth
-
 postinstall=(
     dhcpcd5  # network
 )
 apt install -y --force-yes "${postinstall[@]}"
+
+# hack
+systemctl enable rpibluetooth
