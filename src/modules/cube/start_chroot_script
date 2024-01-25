@@ -88,11 +88,17 @@ unpack /filesystem/root /
 # hack
 systemctl enable rpibluetooth
 
+echo "deb http://deb.debian.org/debian/ sid main" > /etc/apt/sources.list.d/sid.list
+apt update
+
 postinstall=(
     dhcpcd5  # network
-    pi-bluetooth userconf-pi #raspberrypi-sys-mods  # misc
+    #pi-bluetooth userconf-pi #raspberrypi-sys-mods  # misc
 )
 apt install -y "${postinstall[@]}"
+
+rm /etc/apt/sources.list.d/sid.list
+apt update
 
 # cleanup
 apt clean
