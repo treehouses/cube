@@ -11,8 +11,6 @@ unpack /filesystem/home/pi /home/"${BASE_USER}" "${BASE_USER}"
 unpack /filesystem/home/root /root root
 unpack /filesystem/boot /boot
 
-## TODO better alternative enable by cli on first boot
-##      because wifi country problem
 # Enable wifi by default 
 for filename in /var/lib/systemd/rfkill/*:wlan ; do
     echo 0 > $filename
@@ -92,6 +90,7 @@ systemctl enable rpibluetooth
 
 postinstall=(
     dhcpcd5  # network
+    pi-bluetooth raspberrypi-sys-mods userconf-pi  # misc
 )
 apt install -y "${postinstall[@]}"
 
