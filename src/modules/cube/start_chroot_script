@@ -90,7 +90,7 @@ systemctl enable rpibluetooth
 
 postinstall=(
     dhcpcd5  # network
-    pi-bluetooth raspberrypi-sys-mods userconf-pi  # misc
+    pi-bluetooth userconf-pi #raspberrypi-sys-mods  # misc
 )
 apt install -y "${postinstall[@]}"
 
