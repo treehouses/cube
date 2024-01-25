@@ -25,11 +25,6 @@ echo "removing:" $remove_extra
 apt remove -y --purge  $remove_extra
 apt autoremove -y
 
-# basics and apt enhancements
-#basics=(
-#    curl apt-transport-https ca-certificates gnupg  # apt essentials
-#)
-#apt install -y --allow-change-held-packages "${basics[@]}"
 # docker-ce
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -98,7 +93,7 @@ systemctl enable rpibluetooth
 postinstall=(
     dhcpcd5  # network
 )
-apt install -y --allow-change-held-packages "${postinstall[@]}"
+apt install -y "${postinstall[@]}"
 
 # cleanup
 apt clean
