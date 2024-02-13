@@ -107,7 +107,9 @@ apt autoremove -y
 # /boot/version.txt
 version="$DIST_NAME-$DIST_VERSION"
 echo "writing version.txt: $version"
-echo "$version" > /boot/version.txt
+mkdir -p slashboot
+echo "$version" > slashboot/version.txt
+unpack slashboot /boot
 
 # cgroup for kubernetes 
 sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
