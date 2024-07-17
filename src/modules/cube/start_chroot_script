@@ -70,10 +70,7 @@ chmod go-rwx /root/.ssh
 treehouses sshkey github adduser dogi
 treehouses sshkey github adduser mutugiii
 treehouses sshkey github adduser okuro3499
-treehouses sshkey github adduser louhdy
-treehouses sshkey github adduser lanxel97
-treehouses sshkey github adduser wesitos
-treehouses sshkey github adduser lmmrssa
+treehouses sshkey github adduser xyb994
 treehouses sshkey github adduser hirotochigi
 treehouses sshkey github adduser BryanGazali
 cp -R /root/.ssh /home/"${BASE_USER}"
@@ -90,8 +87,8 @@ unpack /filesystem/root /
 # hack
 systemctl enable rpibluetooth
 
-echo "deb http://deb.debian.org/debian/ sid main" > /etc/apt/sources.list.d/sid.list
-apt update
+#echo "deb http://deb.debian.org/debian/ sid main" > /etc/apt/sources.list.d/sid.list
+#apt update
 
 postinstall=(
     dhcpcd5  # network
@@ -99,8 +96,8 @@ postinstall=(
 )
 apt install -y "${postinstall[@]}"
 
-rm /etc/apt/sources.list.d/sid.list
-apt update
+#rm /etc/apt/sources.list.d/sid.list
+#apt update
 
 # cleanup
 apt clean
