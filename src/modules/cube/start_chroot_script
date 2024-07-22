@@ -67,6 +67,8 @@ npm i -g @treehouses/cli
 # team
 ssh-keygen -A
 ls -al /etc/ssh/
+systemctl enable ssh
+systenctl status ssh
 mkdir -p /root/.ssh
 chmod go-rwx /root/.ssh
 treehouses sshkey github adduser dogi
