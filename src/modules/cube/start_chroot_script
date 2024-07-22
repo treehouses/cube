@@ -65,6 +65,7 @@ mkdir -p /etc/bash_completion.d
 npm i -g @treehouses/cli
 
 # team
+ssh-keygen -A
 mkdir -p /root/.ssh
 chmod go-rwx /root/.ssh
 treehouses sshkey github adduser dogi
