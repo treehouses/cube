@@ -19,14 +19,11 @@ done
 # in case we are building from a regular raspbian image instead of the lite one...
 apt update
 remove=(
-  scratch squeak-plugins-scratch squeak-vm
+  scratch squeak-vm
   wolfram-engine
-  python-minecraftpi minecraft-pi
   sonic-pi
-  oracle-java8-jdk bluej
   libreoffice-common libreoffice-core
   freepats
-  greenfoot
   nodered
 )
 apt remove -y --purge "${remove[@]}"
