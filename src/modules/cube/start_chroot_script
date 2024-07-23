@@ -7,86 +7,111 @@ export LC_ALL=C
 
 source /common.sh
 
-
 unpack /filesystem/home/pi /home/"${BASE_USER}" "${BASE_USER}"
 unpack /filesystem/home/root /root root
 unpack /filesystem/boot /boot
 
-# /boot/version.txt
-version="$DIST_NAME-$DIST_VERSION"
-echo "writing version.txt: $version"
-echo "$version" > /boot/version.txt
-
-# cgroup for kubernetes 
-sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
-
-
-## TODO better alternative enable by cli on first boot
-##      because wifi country problem
 # Enable wifi by default 
 for filename in /var/lib/systemd/rfkill/*:wlan ; do
     echo 0 > $filename
 done
 
-apt update
-
 # in case we are building from a regular raspbian image instead of the lite one...
-remove_extra=$(remove_if_installed scratch squeak-plugins-scratch squeak-vm wolfram-engine python-minecraftpi minecraft-pi sonic-pi oracle-java8-jdk bluej libreoffice-common libreoffice-core freepats greenfoot nodered)
-echo "removing:" $remove_extra
-apt remove -y --purge  $remove_extra
+apt update
+remove=(
+  scratch squeak-vm
+  wolfram-engine
+  sonic-pi
+  libreoffice-common libreoffice-core
+  freepats
+  nodered
+)
+apt remove -y --purge "${remove[@]}"
 apt autoremove -y
 
+# docker-ce
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+# nodejs
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+# kubernetes
+#curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+#chmod a+r /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+#echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list
+
+# install
+apt update
 install=(
-    curl apt-transport-https  # apt essentials
-    jq # @treehouses/cli
-    git vim screen  # terminal development
-    autossh tor  # tunnel
-    netcat avahi-daemon  # network
-    docker.io  # container
-    minicom bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
+  jq # @treehouses/cli
+  git vim screen dos2unix  # terminal development
+  autossh tor  # tunnel
+  netcat-openbsd avahi-daemon rfkill  # network
+  minicom bluez bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin  # docker-ce
+  nodejs  # node
+  dhcpcd5  # network
+  #kubectl kubeadm kubelet  # kube
 )
-apt install -y --force-yes "${install[@]}"
+apt install -y --allow-change-held-packages "${install[@]}"
 
 # bluetooth for treehouses remote
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
 cat /usr/local/bin/bluetooth-server.py | grep ^class
 echo "switching bluetooth device class to 0x00010c - computer"
 sed -i -e 's/#Class = .*/Class = 0x00010c/g' /etc/bluetooth/main.conf
-pip3 install 'pybluez==0.23'
+pip3 install git+https://github.com/pybluez/pybluez.git#egg=pybluez --break-system-packages
 
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-apt update
-apt install -y nodejs kubectl kubeadm kubelet
-pip3 install docker-compose
-
+# @treehouses/cli
 mkdir -p /etc/bash_completion.d
 npm i -g @treehouses/cli
+
+# ssh
+ssh-keygen -A
+ls -al /etc/ssh/
+systemctl enable ssh
+systemctl status ssh
+
+# team
 mkdir -p /root/.ssh
 chmod go-rwx /root/.ssh
 treehouses sshkey github adduser dogi
-treehouses sshkey github adduser louhdy
-treehouses sshkey github adduser lanxel97
-treehouses sshkey github adduser wesitos
-treehouses sshkey github adduser lmmrssa
+treehouses sshkey github adduser mutugiii
+treehouses sshkey github adduser okuro3499
+treehouses sshkey github adduser xyb994
 treehouses sshkey github adduser hirotochigi
-treehouses sshkey github adduser jlkwong
 treehouses sshkey github adduser BryanGazali
 cp -R /root/.ssh /home/"${BASE_USER}"
 chown -R "${BASE_USER}": /home/"${BASE_USER}"/.ssh
-
-echo " - reinstall iputils-ping"
-apt install --reinstall iputils-ping
-
-# disable GUI at start
-#systemctl_if_exists disable lightdm.service || true
-
-# cleanup
-apt clean
-apt autoremove -y
 
 unpack /filesystem/root /
 
 # hack
 systemctl enable rpibluetooth
+
+# unstable
+#echo "deb http://deb.debian.org/debian/ sid main" > /etc/apt/sources.list.d/sid.list
+#apt update
+#unstable=(
+#)
+#apt install -y "${unstable[@]}"
+#rm /etc/apt/sources.list.d/sid.list
+#apt update
+
+# cleanup
+apt clean
+apt autoremove -y
+
+# /boot/version.txt
+version="$DIST_NAME-$DIST_VERSION"
+echo "writing version.txt: $version"
+mkdir -p slashboot
+echo "$version" > slashboot/version.txt
+unpack slashboot /boot
+
+# cgroup for kubernetes 
+sed -i -e 's#$# cgroup_memory=1 cgroup_enable=memory#' /boot/cmdline.txt
