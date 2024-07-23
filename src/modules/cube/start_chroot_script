@@ -18,9 +18,18 @@ done
 
 # in case we are building from a regular raspbian image instead of the lite one...
 apt update
-remove_extra=$(remove_if_installed scratch squeak-plugins-scratch squeak-vm wolfram-engine python-minecraftpi minecraft-pi sonic-pi oracle-java8-jdk bluej libreoffice-common libreoffice-core freepats greenfoot nodered)
-echo "removing:" $remove_extra
-apt remove -y --purge  $remove_extra
+remove=(
+  scratch squeak-plugins-scratch squeak-vm
+  wolfram-engine
+  python-minecraftpi minecraft-pi
+  sonic-pi
+  oracle-java8-jdk bluej
+  libreoffice-common libreoffice-core
+  freepats
+  greenfoot
+  nodered
+)
+apt remove -y --purge "${remove[@]}"
 apt autoremove -y
 
 # docker-ce
@@ -34,22 +43,22 @@ echo \
 # nodejs
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 # kubernetes
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-chmod a+r /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list
-
+#curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+#chmod a+r /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+#echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list
 
 # install
 apt update
 install=(
-    jq # @treehouses/cli
-    git vim screen dos2unix  # terminal development
-    autossh tor  # tunnel
-    netcat-openbsd avahi-daemon rfkill  # network
-    minicom bluez bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
-    docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin  # docker-ce
-    nodejs  # node
-    kubectl kubeadm kubelet  # kube
+  jq # @treehouses/cli
+  git vim screen dos2unix  # terminal development
+  autossh tor  # tunnel
+  netcat-openbsd avahi-daemon rfkill  # network
+  minicom bluez bluez-tools libbluetooth-dev python3-pip python3-dbus  # bluetooth
+  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin  # docker-ce
+  nodejs  # node
+  dhcpcd5  # network
+  #kubectl kubeadm kubelet  # kube
 )
 apt install -y --allow-change-held-packages "${install[@]}"
 
@@ -64,11 +73,13 @@ pip3 install git+https://github.com/pybluez/pybluez.git#egg=pybluez --break-syst
 mkdir -p /etc/bash_completion.d
 npm i -g @treehouses/cli
 
-# team
+# ssh
 ssh-keygen -A
 ls -al /etc/ssh/
 systemctl enable ssh
 systemctl status ssh
+
+# team
 mkdir -p /root/.ssh
 chmod go-rwx /root/.ssh
 treehouses sshkey github adduser dogi
@@ -80,26 +91,17 @@ treehouses sshkey github adduser BryanGazali
 cp -R /root/.ssh /home/"${BASE_USER}"
 chown -R "${BASE_USER}": /home/"${BASE_USER}"/.ssh
 
-#echo " - reinstall iputils-ping"
-#apt install --reinstall iputils-ping
-#
-# disable GUI at start
-#systemctl_if_exists disable lightdm.service || true
-
 unpack /filesystem/root /
 
 # hack
 systemctl enable rpibluetooth
 
+# unstable
 #echo "deb http://deb.debian.org/debian/ sid main" > /etc/apt/sources.list.d/sid.list
 #apt update
-
-postinstall=(
-    dhcpcd5  # network
-    #pi-bluetooth userconf-pi #raspberrypi-sys-mods  # misc
-)
-apt install -y "${postinstall[@]}"
-
+#unstable=(
+#)
+#apt install -y "${unstable[@]}"
 #rm /etc/apt/sources.list.d/sid.list
 #apt update
 
