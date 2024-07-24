@@ -56,10 +56,10 @@ jobs:
         cp repository/src/workspace-raspios_lite_arm64/*.img $IMAGE.img
         gzip $IMAGE.img
         sync; sync; sync
-        echo "::set-output name=image::$IMAGE"
+        echo "OUTPUT=$IMAGE" >> $GITHUB_ENV
 
     - name: upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ steps.copy.outputs.image }}
-        path: ${{ steps.copy.outputs.image }}.img.gz
+        name: ${{ env.OUTPUT }}
+        path: ${{ env.OUTPUT }}.img.gz
