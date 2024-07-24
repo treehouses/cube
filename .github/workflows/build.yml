@@ -58,7 +58,8 @@ jobs:
         sync; sync; sync
         echo "::set-output name=image::$IMAGE"
 
-    - uses: actions/upload-artifact@v1
+    - name: upload artifact
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ steps.copy.outputs.image }}
         path: ${{ steps.copy.outputs.image }}.img.gz
