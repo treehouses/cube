@@ -58,7 +58,8 @@ install=(
   dhcpcd5  # network
   #kubectl kubeadm kubelet  # kube
 )
-apt install -y --allow-change-held-packages "${install[@]}"
+#apt install -y --allow-change-held-packages "${install[@]}"
+apt install -y "${install[@]}"
 
 # bluetooth for treehouses remote
 curl --silent --show-error --fail "https://raw.githubusercontent.com/treehouses/control/master/server.py" -o /usr/local/bin/bluetooth-server.py
