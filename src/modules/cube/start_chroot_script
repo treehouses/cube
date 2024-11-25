@@ -46,7 +46,7 @@ curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 # install
 apt update
-dpkg --set-selections <<< 'initramfs-tools hold'
+apt-mark hold initramfs-tools
 install=(
   jq # @treehouses/cli
   git vim screen dos2unix  # terminal development
