@@ -39,10 +39,6 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 # nodejs
 curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-# kubernetes
-#curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.30/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-#chmod a+r /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-#echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.30/deb/ /" | tee /etc/apt/sources.list.d/kubernetes.list
 
 # install
 apt update
@@ -56,7 +52,6 @@ install=(
   docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin  # docker-ce
   nodejs  # node
   dhcpcd5  # network
-  #kubectl kubeadm kubelet  # kube
 )
 #apt install -y --allow-change-held-packages "${install[@]}"
 apt install -y "${install[@]}"
@@ -86,7 +81,8 @@ treehouses sshkey github adduser mutugiii
 treehouses sshkey github adduser okuro3499
 treehouses sshkey github adduser xyb994
 treehouses sshkey github adduser hirotochigi
-treehouses sshkey github adduser BryanGazali
+treehouses sshkey github adduser jessewashburn
+treehouses sshkey github adduser pavi38
 cp -R /root/.ssh /home/"${BASE_USER}"
 chown -R "${BASE_USER}": /home/"${BASE_USER}"/.ssh
 
